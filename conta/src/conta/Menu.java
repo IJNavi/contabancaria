@@ -1,6 +1,7 @@
 package conta;
 
 import java.util.Scanner;
+import java.util.Cores;
 
 public class Menu {
 
@@ -12,7 +13,8 @@ public class Menu {
 
 		while (true) {
 
-			System.out.println("*****************************************************");
+			System.out.println(Cores.TEXT_YELLOW + Cores.ANSI_BLACK_BACKGROUND
+					         + "*****************************************************");
 			System.out.println("                                                     ");
 			System.out.println("             BANCO DO BRAZIL COM Z                   ");
 			System.out.println("                                                     ");
