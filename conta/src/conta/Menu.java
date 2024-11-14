@@ -17,9 +17,9 @@ public class Menu {
 
 		Scanner leia = new Scanner(System.in);
 
-		int opcao, numero, agencia, tipo, aniversario;
+		int opcao, numero, agencia, tipo, aniversario, numeroDestino;
 		String titular;
-		float saldo, limite;
+		float saldo, limite, valor = 0;
 		
 		// Cria 2 contas de cada tipo para testes. Já que não há persistência de dados neste código.
 		
@@ -127,27 +127,27 @@ public class Menu {
 			    System.out.println("Atualizar dados da Conta\n\n");
 			    
 			    System.out.println("Digite o número da conta: ");
-			    int numero1 = leia.nextInt();
-			    var buscaConta = contas.buscarNaCollection(numero1);
+			    numero = leia.nextInt();
+			    var buscaConta = contas.buscarNaCollection(numero);
 			    if (buscaConta != null) {
-			        int tipo1 = buscaConta.getTipo();
+			        tipo = buscaConta.getTipo();
 			        System.out.println("Digite o Numero da Agência: ");
-			        int agencia1 = leia.nextInt();
+			        agencia = leia.nextInt();
 			        System.out.println("Digite o Nome do Titular: ");
 			        leia.skip("\\R?");
-			        String titular1 = leia.nextLine();
+			        titular = leia.nextLine();
 			        System.out.println("Digite o Saldo da Conta (R$): ");
-			        float saldo1 = leia.nextFloat();
-			        switch (tipo1) {
+			        saldo = leia.nextFloat();
+			        switch (tipo) {
 			            case 1:
 			                System.out.println("Digite o Limite de Crédito (R$): ");
-			                float limite1 = leia.nextFloat();
-			                contas.atualizar(new ContaCorrente(numero1, agencia1, tipo1, titular1, saldo1, limite1));
+			                limite = leia.nextFloat();
+			                contas.atualizar(new ContaCorrente(numero, agencia, tipo, titular, saldo, limite));
 			                break;
 			            case 2:
 			                System.out.println("Digite o dia do Aniversario da Conta: ");
-			                int aniversario1 = leia.nextInt();
-			                contas.atualizar(new ContaPoupança(numero1, agencia1, tipo1, titular1, saldo1, aniversario1));
+			                aniversario = leia.nextInt();
+			                contas.atualizar(new ContaPoupança(numero, agencia, tipo, titular, saldo, aniversario));
 			                break;
 			            default:
 			                System.out.println("Tipo de conta inválido!");
@@ -171,18 +171,48 @@ public class Menu {
 				break;
 			case 6:
 				System.out.println(Cores.TEXT_WHITE + "Saque\n\n");
+				
+				System.out.println("Digite o número da conta: ");
+				numero = leia.nextInt();
+				
+				do {
+					
+					System.out.println("Digite o Valor do Saque (R$): ");
+					valor = leia.nextFloat();
+					
+				} while (valor <= 0);
+				
+				contas.sacar(numero, valor);
+				
 				keyPress();
-
 				break;
 			case 7:
 				System.out.println(Cores.TEXT_WHITE + "Depósito\n\n");
+				
+				System.out.println("Digite o Numero da conta: ");
+			    numero = leia.nextInt();
+			    do {
+			        System.out.println("Digite o Valor do Depósito (R$): ");
+			        valor = leia.nextFloat();
+			    } while(valor <= 0);
+			    contas.depositar(numero, valor);
+				
 				keyPress();
-
 				break;
 			case 8:
 				System.out.println(Cores.TEXT_WHITE + "Transferência entre Contas\n\n");
+				
+				System.out.println("Digite o Numero da Conta de Origem: ");
+						    numero = leia.nextInt();
+						    System.out.println("Digite o Numero da Conta de Destino: ");
+						    numeroDestino = leia.nextInt();
+						    do {
+						        System.out.println("Digite o Valor da Transferência (R$): ");
+						        valor = leia.nextFloat();
+						    } while (valor <= 0);
+						    contas.transferir(numero, numeroDestino, valor);
+				
 				keyPress();
-
 				break;
 			default:
 				System.out.println(Cores.TEXT_RED_BOLD + "\nOpção Inválida!\n" + Cores.TEXT_RESET);
